@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.ui import WebDriverWait
+import time
+
 
 class NewVisitorTest(LiveServerTestCase):
 
@@ -27,7 +29,7 @@ class NewVisitorTest(LiveServerTestCase):
         # 웹 페이지 타이틀과 헤더가 'To-Do'를 표시하고 있다.
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('To-Do', header_text)
+        self.assertIn('작업 목록 시작', header_text)
 
         # 그녀는 바로 작업을 추가하기로 한다
         inputbox = self.browser.find_element_by_id('id_new_item')
@@ -45,9 +47,7 @@ class NewVisitorTest(LiveServerTestCase):
         # "1: 공작깃털 사기" 아이템이 추가된다
         inputbox.send_keys(Keys.ENTER)
 
-        WebDriverWait(self.browser, 10).until(
-            expected_conditions.text_to_be_present_in_element(
-                (By.ID, 'id_list_table'), input_text1))
+        time.sleep(0.5)
 
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
@@ -61,9 +61,7 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(input_text2)
         inputbox.send_keys(Keys.ENTER)
 
-        WebDriverWait(self.browser, 10).until(
-            expected_conditions.text_to_be_present_in_element(
-                (By.ID, 'id_list_table'), input_text2))
+        time.sleep(0.5)
 
         # 페이지는 다시 갱신되고, 두 개 아이템이 목록에 보인다
         self.check_for_row_in_list_table('1: ' + input_text1)
@@ -86,8 +84,11 @@ class NewVisitorTest(LiveServerTestCase):
         # 프란시스가 새로운 작업 아이템을 입력하기 시작한다
         # 그는 에디스보다 재미가 없다
         inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys('우유 사기')
+        input_text3 = '우유 사기'
+        inputbox.send_keys(input_text3)
         inputbox.send_keys(Keys.ENTER)
+
+        time.sleep(0.5)
 
         # 프란시스가 전용 URL을 취득한다
         francis_list_url = self.browser.current_url
