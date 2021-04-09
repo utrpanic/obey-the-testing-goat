@@ -1,32 +1,9 @@
-import os
 import time
-
-from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.test import LiveServerTestCase
+from .base import FunctionalTest
 from selenium import webdriver
-from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.ui import WebDriverWait
 
-
-
-class NewVisitorTest(StaticLiveServerTestCase):
-
-    def setUp(self):
-        self.browser = webdriver.Firefox()
-        staging_server = os.environ.get('STAGING_SERVER')  
-        if staging_server:
-            self.live_server_url = 'http://' + staging_server  
-        self.browser.implicitly_wait(3)
-
-    def tearDown(self):
-        self.browser.quit()
-
-    def check_for_row_in_list_table(self, row_text):
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
-        self.assertIn(row_text, [row.text for row in rows])
+class NewVisitorTest(FunctionalTest):
 
     def test_can_start_a_list_and_retrieve_it_later(self):
         # 에디스(Edith)는 멋진 작업 목록 온라인 앱이 나왔다는 소식을 듣고
@@ -105,29 +82,3 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.assertNotIn('그물 만들기', page_text)
 
         # 둘 다 만족하고 잠자리에 든다
-
-    def test_layout_and_styling(self):
-        # 에디스는 메인 페이지를 방문한다
-        self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1024, 768)
-
-        # 그녀는 입력 상자가 가운데 배치된 것을 본다
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width'] / 2,
-            512,
-            delta=10
-        )
-
-        # 그녀는 새로운 리스트를 시작하고 입력 상자가
-        # 가운데 배치된 것을 확인한다
-        inputbox.send_keys('testing')
-        inputbox.send_keys(Keys.ENTER)
-        time.sleep(0.5)
-
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width'] / 2,
-            512,
-            delta=10
-        )
