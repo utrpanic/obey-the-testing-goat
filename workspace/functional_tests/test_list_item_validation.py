@@ -20,7 +20,6 @@ class ItemValidationTest(FunctionalTest):
         # 페이지가 새로고침되고, 빈 아이템을 등록할 수 없다는
         # 에러 메시지가 표시된다.
         error = self.get_error_element()
-        self.get_item_input_box().send_keys(' ') # required input 회피용.
         self.assertEqual(error.text, EMPTY_LIST_ERROR)
 
         # 다른 아이템을 입력하고 이번에는 정상 처리된다.
