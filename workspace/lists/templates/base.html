@@ -8,6 +8,11 @@
     </head>
     <body>
     <div class="container">
+
+        <nav class="navbar navbar-default" role="navigation">
+            <a class="navbar-brand" href="/">Superlists</a>
+            <a class="btn navbar-btn navbar-right" id="id_login" href="#">로그인</a>
+        </nav>
         
         <div class="row">
             <div class="col-xs-6 col-xs-offset-3 jumbotron">
@@ -34,6 +39,20 @@
 
     </div>
     <script src="http://code.jquery.com/jquery.min.js"></script>
+    <script src="https://login.persona.org/include.js"></script>
+    <script src="/static/accounts/accounts.js"></script>
     <script src="/static/list.js"></script>
+    <script>
+        /* global $, Superlists, navigator */
+        $(document).ready(function() {
+            var user = "{{ user.email }}" || null;
+            var token = "{{ csrf_token }}";
+            var urls = {
+                login: "TODO",
+                logout: "TODO",
+            };
+            Superlists.Accounts.initialize(navigator, user, token, urls);
+        });
+    </script>
     </body>
 </html>
