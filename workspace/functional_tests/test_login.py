@@ -31,7 +31,7 @@ class LoginTest(FunctionalTest):
     def switch_to_new_window(self, text_in_title):
         retries = 60
         while retries > 0:
-            for handle in self.browser.window_handlers:
+            for handle in self.browser.window_handles:
                 self.browser.switch_to_window(handle)
                 if text_in_title in self.browser.title:
                     return
