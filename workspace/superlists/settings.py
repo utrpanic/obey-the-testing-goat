@@ -124,3 +124,7 @@ STATIC_ROOT = BASE_DIR / '../static'
 STATICFILES_DIRS = (
     BASE_DIR / 'superlists' / 'static',
 )
+AUTH_USER_MODEL = 'accounts.User'
+AUTHENTICATION_BACKENDS = (
+    'accounts.authentication.PersonaAuthenticationBackend',
+)
