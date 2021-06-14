@@ -25,6 +25,17 @@
                 "functional_tests"
             ],
             "django": true
+        },
+        {
+            "name": "Django Accounts Tests",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/manage.py",
+            "args": [
+                "test",
+                "accounts"
+            ],
+            "django": true
         }
     ]
 }
